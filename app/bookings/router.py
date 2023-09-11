@@ -1,18 +1,14 @@
-from fastapi import APIRouter
-from sqlalchemy import select
-
-from app.bookings.models import Bookings
-from app.bookings.schemas import SBooking
-from app.database import async_session_maker
+from fastapi import APIRouter, Depends
+from app.users.models import Users
 from app.bookings.dao import BookingDAO
+from app.users.dependencies import get_current_user
 
 router = APIRouter(
     prefix="/bookings",
-    tags=["Бронирования"]
+    tags=["Bookings"]
 )
 
 
 @router.get("")
-async def get_booking() -> list[SBooking]:
-    async with async_session_maker() as session:
-        return await BookingDAO.find_all()
+async def get_booking(user: Users = Depends(get_current_user)):
+    return await BookingDAO.find_all(user_id=user.id)
