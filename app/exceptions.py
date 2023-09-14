@@ -23,15 +23,22 @@ class TokenExpiredException(BookingException):
     status_code = status.HTTP_401_UNAUTHORIZED,
     detail = "Токен истек"
 
+
 class TokenAbsentException(BookingException):
     status_code = status.HTTP_401_UNAUTHORIZED,
     detail = "Токен отсутствует"
+
 
 class IncorrectTokenFormat(BookingException):
     status_code = status.HTTP_401_UNAUTHORIZED,
     detail = "Неверный формат токена"
 
+
 class UserFormatException(BookingException):
     status_code = status.HTTP_401_UNAUTHORIZED,
     detail = "Ошибка формата пользователя"
 
+
+class RoomCannotBooked(BookingException):
+    status_code = status.HTTP_409_CONFLICT
+    detail = "Не осталось свободных номеров"
